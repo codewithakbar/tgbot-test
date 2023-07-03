@@ -45,8 +45,7 @@ async def get_all_news(message: types.Message):
 
     for k, v in sorted(news_dict.items()):
         url = "https://t.me/SatYouNews"
-        news = f"{hbold(v['article_title'])}\n" \
-               f"{escape_md(v['article_title'])}\n\n" \
+        news =f"{escape_md(v['article_title'])}\n\n" \
                f"<a href='{url}'>SatYou!</a>\n"
 
         chat_id = message.chat.id
@@ -62,8 +61,7 @@ async def get_five_news(message: types.Message):
 
     for k, v in sorted(news_dict.items())[-5:]:
         url = "https://t.me/SatYouNews"
-        news = f"{hbold(v['article_title'])}\n" \
-               f"{escape_md(v['article_title'])}\n\n" \
+        news = f"{escape_md(v['article_title'])}\n\n" \
                f"<b><a href='{url}'>SatYou!</a><b>\n"
 
         chat_id = message.chat.id
