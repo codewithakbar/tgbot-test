@@ -13,7 +13,7 @@ aiohttp[speedups]
 
 # Other packages
 python-dotenv
-
+numpy 
 ###############################################################
 ###     Some useful async libraries to use with aiogram     ###
 ### for more: https://github.com/timofurrer/awesome-asyncio ###
@@ -30,3 +30,5 @@ python-dotenv
 # aioamqp  # Async work with AMQP
 # aiocache  # Async work with cache system
 # aiopath  # Async pathlib
+
+beautifulsoup4
