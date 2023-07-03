@@ -55,7 +55,7 @@ async def get_all_news(message: types.Message):
 
 
 @dp.message_handler(Text(equals="Последние 5 новостей"))
-async def get_five_news(message: types.Message):
+async def get_all_news(message: types.Message):
     with open("news_dict.json", encoding="utf-8") as file:
         news_dict = json.load(file)
 
