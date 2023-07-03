@@ -44,9 +44,10 @@ async def get_all_news(message: types.Message):
         news_dict = json.load(file)
 
     for k, v in sorted(news_dict.items()):
-        news = f"{hbold(v['article_date_timestamp'])}\n" \
+        url = "https://t.me/SatYouNews"
+        news = f"{hbold(v['article_title'])}\n" \
                f"{escape_md(v['article_title'])}\n\n" \
-               f"<b>SatYou!</b>\n"
+               f"<a href='{url}'>SatYou!</a>\n"
 
         chat_id = message.chat.id
         photo_path = v["article_img"]
@@ -55,14 +56,15 @@ async def get_all_news(message: types.Message):
 
 
 @dp.message_handler(Text(equals="Последние 5 новостей"))
-async def get_all_news(message: types.Message):
+async def get_five_news(message: types.Message):
     with open("news_dict.json", encoding="utf-8") as file:
         news_dict = json.load(file)
 
     for k, v in sorted(news_dict.items())[-5:]:
-        news = f"{hbold(v['article_date_timestamp'])}\n" \
+        url = "https://t.me/SatYouNews"
+        news = f"{hbold(v['article_title'])}\n" \
                f"{escape_md(v['article_title'])}\n\n" \
-               f"<b>SatYou!</b>\n"
+               f"<a href='{url}'>SatYou!</a>\n"
 
         chat_id = message.chat.id
         photo_path = v["article_img"]
