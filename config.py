@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 import os
 
 # Find .env file with os variables
-load_dotenv("dev.env")
+load_dotenv(".env")
 
 # retrieve config variables
 try:
