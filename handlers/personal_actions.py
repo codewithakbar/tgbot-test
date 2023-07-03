@@ -43,7 +43,7 @@ async def get_all_news(message: types.Message):
     with open("news_dict.json", encoding="utf-8") as file:
         news_dict = json.load(file)
 
-    for k, v in sorted(news_dict.items()):
+    for k, v in sorted(news_dict.items())[:10]:
         url = "https://t.me/SatYouNews"
         news =f"{hbold(v['article_title'])}\n\n" \
                f"<b><a href='{url}'>SatYou!</a></b>\n"
