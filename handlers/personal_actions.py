@@ -97,7 +97,7 @@ async def news_every_minute():
             for send in user_id:
                 await bot.send_message(send, text="Пока нет свежих новостей...")
 
-        await asyncio.sleep(60)
+        await asyncio.sleep(220)
 
 
 
