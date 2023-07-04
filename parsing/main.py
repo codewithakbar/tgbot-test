@@ -30,15 +30,30 @@ def get_first_news():
         article_id = article_id[:-5]
         # print(f"{article_title} | {article_url} | {article_img}")
 
+        article_content = parse_article(article_url)
+
         news_dict[article_id] = {
             "article_date_timestamp": article_date,
             "article_title": article_title,
             "article_url": article_url,
             "article_img": article_img,
+            "article_content": article_content,
         }
     
     with open("news_dict.json", "w", encoding="utf-8") as file:
         json.dump(news_dict, file, indent=4, ensure_ascii=False)
+
+
+def parse_article(article_url):
+    headers = {
+        "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+    }
+
+    r = requests.get(url=article_url, headers=headers)
+    soup = BeautifulSoup(r.text, "lxml")
+
+    article_content = soup.find("div", class_="article__body").find("div", class_="article__text").text.strip()
+    return article_content
 
 
 def check_news_update():
@@ -69,6 +84,7 @@ def check_news_update():
             article_title = article.find("div", class_="list-item__content").find("a", class_="list-item__title").text.strip()
             article_date = article.find("div", class_="list-item__info").find("div", class_="list-item__date").text.strip()
             article_img = article.find("div", class_="list-item__content").find("img").get("src")
+            article_content = parse_article(article_url)
 
 
             # print(f"{article_title} | {article_url} | {article_id}")
@@ -78,6 +94,7 @@ def check_news_update():
                 "article_title": article_title,
                 "article_url": article_url,
                 "article_img": article_img,
+                "article_content": article_content,
             }
 
             fresh_news[article_id] = {
@@ -85,6 +102,7 @@ def check_news_update():
                 "article_title": article_title,
                 "article_url": article_url,
                 "article_img": article_img,
+                "article_content": article_content,
             }
 
     with open("news_dict.json", "w", encoding="utf-8") as file:

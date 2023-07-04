@@ -8,11 +8,13 @@ from io import BytesIO
 
 from aiogram import types
 from aiogram.dispatcher.filters import Text
-from aiogram.utils.markdown import hbold, hunderline, hpre, hlink, escape_md
+from aiogram.utils.markdown import hbold, hunderline, hpre, hlink, text
 
 from dispatcher import dp, bot
 from handlers.send_photo_with_logo import send_news_with_logo
 from parsing.main import check_news_update
+
+from data.config import CHANNELS
 
 
 # Personal actions goes here (bot direct messages)
@@ -62,6 +64,7 @@ async def get_all_news(message: types.Message):
     for k, v in sorted(news_dict.items())[:5]:
         url = "https://t.me/SatYouNews"
         news = f"{hbold(v['article_title'])}\n\n" \
+                f"{text(v['article_content'])}\n\n" \
                f"<b><a href='{url}'>SatYou!</a></b>\n"
 
         chat_id = message.chat.id
@@ -71,21 +74,41 @@ async def get_all_news(message: types.Message):
 
 
 
+
+
 async def news_every_minute():
     while True:
         fresh_news = check_news_update()
-        user_id = 933986259
+        user_id = (984573662, 933986259)
 
         if len(fresh_news) >= 1:
             for k, v in sorted(fresh_news.items()):
-                news = f"{hbold(v['article_date_timestamp'])}\n" \
-                    f"{hlink(v['article_title'], v['article_url'])}"
+                url = "https://t.me/SatYouNews"
+                news = f"{hbold(v['article_title'])}\n\n" \
+                    f"{hbold(v['article_content'])}\n\n" \
+                f"<b><a href='{url}'>SatYou!</a></b>\n"
 
                 photo_path = v["article_img"]
 
-                await send_news_with_logo(user_id, photo_path, news)
+                for send in user_id:
+                    await send_news_with_logo(send, photo_path, news)
 
         else:
-            await bot.send_message(user_id, text="Пока нет свежих новостей...")
+            for send in user_id:
+                await bot.send_message(send, text="Пока нет свежих новостей...")
 
         await asyncio.sleep(60)
+
+
+
+
+@dp.callback_query_handler(text='admin_confirm')
+async def confirm_post(call: types.CallbackQuery):
+    message = await call.message.edit_reply_markup()
+    await message.send_copy(chat_id=CHANNELS[0])
+
+
+@dp.callback_query_handler(text='admin_cancel')
+async def cancel_post(call: types.CallbackQuery):
+    await call.message.delete()
+    await call.message.answer("Bekor qilindi")
