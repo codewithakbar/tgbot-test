@@ -55,4 +55,4 @@ async def send_news_with_logo(chat_id, photo_path, news):
     photo_byte_array.seek(0)
 
     # Send the photo with the logo and caption to the chat
-    await bot.send_photo(chat_id, photo=photo_byte_array, caption=news, reply_markup=confirmation_keyboard)
+    await bot.send_photo(chat_id, photo=photo_byte_array, caption=news, reply_markup=confirmation_keyboard, parse_mode="HTML")

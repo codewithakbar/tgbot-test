@@ -14,7 +14,7 @@ from dispatcher import dp, bot
 from handlers.send_photo_with_logo import send_news_with_logo
 from parsing.main import check_news_update
 
-from data.config import CHANNELS
+from data.config import ADMINS, CHANNELS
 
 
 # Personal actions goes here (bot direct messages)
@@ -80,7 +80,7 @@ async def get_five_news(message: types.Message):
 async def news_every_minute():
     while True:
         fresh_news = check_news_update()
-        user_id = (984573662, 933986259)
+        user_id = ADMINS
 
         if len(fresh_news) >= 1:
             for k, v in sorted(fresh_news.items()):

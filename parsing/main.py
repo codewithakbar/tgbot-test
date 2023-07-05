@@ -53,6 +53,8 @@ def parse_article(article_url):
     soup = BeautifulSoup(r.text, "lxml")
 
     article_content = soup.find("div", class_="article__body").find("div", class_="article__text").text.strip()
+    article_content = article_content.replace("РИА", "SatYou")
+
     return article_content
 
 
